@@ -2,6 +2,7 @@
 static int surfuseragent    = 1;  /* Append Surf version to default WebKit user agent */
 static int extendedtitle    = 0;  /* 0 to not append surf's toggle and page status to title. */
 static char *fulluseragent  = ""; /* Or override the whole user agent string */
+static char *homepage       = "about:blank";
 static char *scriptfile     = "~/.surf/script.js";
 static char *styledir       = "~/.surf/styles/";
 static char *certdir        = "~/.surf/certificates/";
