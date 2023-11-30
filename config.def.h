@@ -5,6 +5,7 @@ static char *fulluseragent  = ""; /* Or override the whole user agent string */
 static char *homepage       = "about:blank";
 static char *styledir       = "~/.surf/styles/";
 static char *certdir        = "~/.surf/certificates/";
+static char *downloaddir    = "~/Downloads/";
 static char *cachedir       = "~/.surf/cache/";
 static char *cookiefile     = "~/.surf/cookies.txt";
 static char *searchurl      = "duckduckgo.com/?q=%s";
@@ -86,9 +87,10 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
 /* DOWNLOAD(URI, referer) */
 #define DOWNLOAD(u, r) { \
         .v = (const char *[]){ "st", "-e", "/bin/sh", "-c",\
+             "eval cd \"$5\" && " \
              "curl -g -L -J -O -A \"$1\" -b \"$2\" -c \"$2\"" \
              " -e \"$3\" \"$4\"; read", \
-             "surf-download", useragent, cookiefile, r, u, NULL \
+             "surf-download", useragent, cookiefile, r, u, downloaddir, NULL \
         } \
 }
 
