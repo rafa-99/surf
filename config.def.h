@@ -6,6 +6,7 @@ static char *styledir       = "~/.surf/styles/";
 static char *certdir        = "~/.surf/certificates/";
 static char *cachedir       = "~/.surf/cache/";
 static char *cookiefile     = "~/.surf/cookies.txt";
+#define BMFILE                "~/.surf/bookmarks"
 
 /* Webkit default features */
 /* Highest priority value will be used.
@@ -69,7 +70,7 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
         .v = (const char *[]){ "/bin/sh", "-c", \
              "prop=\"$(printf '%b' \"$(xprop -id $1 "r" " \
              "| sed -e 's/^"r"(UTF8_STRING) = \"\\(.*\\)\"/\\1/' " \
-             "      -e 's/\\\\\\(.\\)/\\1/g')\" " \
+             "      -e 's/\\\\\\(.\\)/\\1/g' && cat "BMFILE")\" " \
              "| dmenu -p '"p"' -w $1)\" " \
              "&& xprop -id $1 -f "s" 8u -set "s" \"$prop\"", \
              "surf-setprop", winid, NULL \
@@ -99,6 +100,16 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
 #define VIDEOPLAY(u) {\
         .v = (const char *[]){ "/bin/sh", "-c", \
              "mpv --really-quiet \"$0\"", u, NULL \
+        } \
+}
+/* BM_ADD(readprop) */
+#define BM_ADD(r) {\
+        .v = (const char *[]){ "/bin/sh", "-c", \
+             "(echo $(xprop -id $0 $1) | cut -d '\"' -f2 " \
+             "| sed 's/.*https*:\\/\\/\\(www\\.\\)\\?//' && cat "BMFILE") " \
+             "| awk '!seen[$0]++' > "BMFILE".tmp && " \
+             "mv "BMFILE".tmp "BMFILE"", \
+             winid, r, NULL \
         } \
 }
 
@@ -133,6 +144,7 @@ static Key keys[] = {
 	{ MODKEY,                GDK_KEY_g,      spawn,      SETPROP("_SURF_URI", "_SURF_GO", PROMPT_GO) },
 	{ MODKEY,                GDK_KEY_f,      spawn,      SETPROP("_SURF_FIND", "_SURF_FIND", PROMPT_FIND) },
 	{ MODKEY,                GDK_KEY_slash,  spawn,      SETPROP("_SURF_FIND", "_SURF_FIND", PROMPT_FIND) },
+	{ MODKEY,                GDK_KEY_m,      spawn,      BM_ADD("_SURF_URI") },
 
 	{ 0,                     GDK_KEY_Escape, stop,       { 0 } },
 	{ MODKEY,                GDK_KEY_c,      stop,       { 0 } },
