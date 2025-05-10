@@ -10,7 +10,6 @@ static char *scriptfiles[]  = {
 	"~/.surf/script.js",
 };
 #define BMFILE                "~/.surf/bookmarks"
-#define HOMEPAGE              "https://duckduckgo.com/"
 
 /* Webkit default features */
 /* Highest priority value will be used.
