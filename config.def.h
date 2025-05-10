@@ -6,10 +6,10 @@ static char *certdir        = "~/.surf/certificates/";
 static char *cachedir       = "~/.surf/cache/";
 static char *cookiefile     = "~/.surf/cookies.txt";
 static char *searchurl      = "duckduckgo.com/?q=%s";
-#define BMFILE                "~/.surf/bookmarks"
 static char *scriptfiles[]  = {
 	"~/.surf/script.js",
 };
+#define BMFILE                "~/.surf/bookmarks"
 
 /* Webkit default features */
 /* Highest priority value will be used.
